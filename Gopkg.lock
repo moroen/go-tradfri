@@ -69,7 +69,7 @@
   branch = "master"
   name = "github.com/moroen/canopus"
   packages = ["."]
-  revision = "57a74df3b6c83fc7998c9e089957ec1b86e076ad"
+  revision = "6857d5ac4e6e978759b49374a255471ae4e1f367"
 
 [[projects]]
   branch = "master"
@@ -132,7 +132,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "fff93fa7cd278d84afc205751523809c464168ab"
+  revision = "2c42eef0765b9837fbdab12011af7830f55f88f0"
 
 [[projects]]
   branch = "master"
