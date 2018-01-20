@@ -3,6 +3,8 @@
 package cmd
 
 import (
+	"fmt"
+	"strconv"
 	"strings"
 
 	coap "github.com/moroen/go-tradfricoap"
@@ -20,16 +22,33 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Args: cobra.ExactArgs(2),
+	Args: func(cmd *cobra.Command, args []string) error {
+
+		if err := coap.ValidateDeviceID(args[0]); err != nil {
+			return err
+		}
+
+		if strings.ToLower(args[1]) == "on" || strings.ToLower(args[1]) == "off" || strings.ToLower(args[1]) == "1" || strings.ToLower(args[1]) == "0" {
+			return nil
+		} else {
+			return fmt.Errorf("%s isn't an allowed setting, use 'on', 'off', '1' or '0'", args[1])
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 
 		state := 0
+
+		id, err := strconv.Atoi(args[0])
+
+		if err != nil {
+			panic(err.Error())
+		}
 
 		if strings.ToLower(args[1]) == "on" {
 			state = 1
 		}
 
-		_, err := coap.SetState(args[0], state)
+		_, err = coap.SetState(int64(id), state)
 		if err != nil {
 			panic(err.Error())
 		}

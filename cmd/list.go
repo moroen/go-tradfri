@@ -26,9 +26,22 @@ to quickly create a Cobra application.`,
 		if err != nil {
 			panic(err.Error())
 		}
+
+		fmt.Println("Lights:")
 		for i := range lights {
 			fmt.Println(lights[i].Describe())
 		}
+
+		fmt.Println("\nGroups:")
+		groups, err := coap.GetGroups()
+		if err != nil {
+			panic(err.Error())
+		}
+
+		for i := range groups {
+			fmt.Println(groups[i].Describe())
+		}
+
 	},
 }
 

@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"log"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -33,21 +33,41 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Args: cobra.ExactArgs(2),
-	Run: func(cmd *cobra.Command, args []string) {
-		//fmt.Println("color called")
-		if level, err := strconv.Atoi(args[1]); err == nil {
-			if err := coap.SetHexForLevel(args[0], level); err != nil {
-				log.Println(err.Error())
-			}
-		} else {
-			if strings.ToLower(args[1]) == "list" {
-				if device, err := coap.GetLight(args[0]); err == nil {
-					coap.ListColorsInMap(device.Colors)
-				}
-			}
+	Args: func(cmd *cobra.Command, args []string) error {
+
+		if err := coap.ValidateDeviceID(args[0]); err != nil {
+			return err
 		}
 
+		if strings.ToLower(args[1]) == "list" {
+			return nil
+		}
+
+		if _, err := strconv.Atoi(args[1]); err != nil {
+			return fmt.Errorf("%s doesn't appear to be a valid color level", args[1])
+		}
+
+		return nil
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		//fmt.Println("color called")
+
+		id, err := strconv.Atoi(args[0])
+		if err != nil {
+			panic(err.Error())
+		}
+
+		if strings.ToLower(args[1]) == "list" {
+			if device, err := coap.GetLight(int64(id)); err == nil {
+				coap.ListColorsInMap(device.Colors)
+			}
+		} else {
+			level, err := strconv.Atoi(args[1])
+			if err != nil {
+				panic(err.Error())
+			}
+			coap.SetHexForLevel(int64(id), level)
+		}
 	},
 }
 

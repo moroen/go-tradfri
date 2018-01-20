@@ -1,10 +1,11 @@
 dep = ${GOPATH}/bin/dep
 curDir = $(shell pwd)
 vendor = $(curDir)/vendor
+target = tradfri
 
-all: tradfri
+all: $(target)
 
-tradfri: $(dep) $(vendor)
+tradfri: $(dep) $(vendor) cmd cmd/*
 	go build -v
 
 $(dep):
@@ -12,6 +13,9 @@ $(dep):
 
 $(vendor):
 	dep ensure -v
+
+test: tradfri
+	$(target) list
 
 clean:
 	rm -rf $(vendor); rm tradfri
