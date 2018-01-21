@@ -1,4 +1,4 @@
-// Copyright © 2017 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2018 NAME HERE <EMAIL ADDRESS>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,63 +16,54 @@ package cmd
 
 import (
 	"fmt"
-	"strconv"
 
 	coap "github.com/moroen/go-tradfricoap"
-
 	"github.com/spf13/cobra"
 )
 
-// dimmerCmd represents the dimmer command
-var dimmerCmd = &cobra.Command{
-	Use:   "dimmer",
+// groupCmd represents the group command
+var groupCmd = &cobra.Command{
+	Use:   "group",
 	Short: "A brief description of your command",
+	Long:  `Commands for working with groups.`,
+
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("group called")
+	},
+}
+
+var listGroupCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List groups",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Args: func(cmd *cobra.Command, args []string) error {
-
-		if err := coap.ValidateDeviceID(args[0]); err != nil {
-			return err
-		}
-
-		if _, err := strconv.Atoi(args[1]); err != nil {
-			return fmt.Errorf("%s doesn't appear to be a valid dimmer level", args[1])
-		}
-		return nil
-	},
 	Run: func(cmd *cobra.Command, args []string) {
-		id, err := strconv.Atoi(args[0])
+		groups, err := coap.GetGroups()
 		if err != nil {
 			panic(err.Error())
 		}
 
-		level, err := strconv.Atoi(args[1])
-		if err != nil {
-			panic(err.Error())
+		for i := range groups {
+			fmt.Println(groups[i].Describe())
 		}
-
-		_, err = coap.SetLevel(int64(id), level)
-		if err != nil {
-			panic(err.Error())
-		}
-
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(dimmerCmd)
+	rootCmd.AddCommand(groupCmd)
+	groupCmd.AddCommand(listGroupCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// dimmerCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// groupCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// dimmerCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// groupCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
