@@ -1,11 +1,11 @@
 dep = ${GOPATH}/bin/dep
 curDir = $(shell pwd)
-vendor = $(curDir)/vendor
+# vendor = $(curDir)/vendor
 target = tradfri
 
 all: $(target)
 
-tradfri: $(dep) $(vendor) cmd cmd/*
+tradfri: $(dep) $(vendor) cmd cmd/* *.go
 	go build -v
 
 $(dep):
