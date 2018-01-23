@@ -25,7 +25,7 @@ import (
 // groupCmd represents the group command
 var groupCmd = &cobra.Command{
 	Use:   "group",
-	Short: "A brief description of your command",
+	Short: "Commands for working with groups",
 	Long:  `Commands for working with groups.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
@@ -56,7 +56,7 @@ to quickly create a Cobra application.`,
 
 var groupOffCmd = &cobra.Command{
 	Use:   "off",
-	Short: "A brief description of your command",
+	Short: "Switch a group off",
 	Long:  `Commands for working with groups.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
@@ -79,7 +79,7 @@ var groupOffCmd = &cobra.Command{
 
 var groupOnCmd = &cobra.Command{
 	Use:   "on",
-	Short: "Turn on a group of lights",
+	Short: "Switch a group on",
 	Long:  `Commands for working with groups.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 1 {
@@ -100,11 +100,55 @@ var groupOnCmd = &cobra.Command{
 	},
 }
 
+var groupLevelCmd = &cobra.Command{
+	Use:   "level",
+	Short: "Set brighness level (0-254)",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
+	Args: func(cmd *cobra.Command, args []string) error {
+
+		if len(args) != 2 {
+			return fmt.Errorf("wrong number of arguments")
+		}
+
+		if err := coap.ValidateDeviceID(args[0]); err != nil {
+			return err
+		}
+
+		if _, err := strconv.Atoi(args[1]); err != nil {
+			return fmt.Errorf("%s doesn't appear to be a valid dimmer level", args[1])
+		}
+		return nil
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		id, err := strconv.Atoi(args[0])
+		if err != nil {
+			panic(err.Error())
+		}
+
+		level, err := strconv.Atoi(args[1])
+		if err != nil {
+			panic(err.Error())
+		}
+
+		_, err = coap.GroupSetLevel(int64(id), level)
+		if err != nil {
+			panic(err.Error())
+		}
+
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(groupCmd)
 	groupCmd.AddCommand(listGroupCmd)
 	groupCmd.AddCommand(groupOnCmd)
 	groupCmd.AddCommand(groupOffCmd)
+	groupCmd.AddCommand(groupLevelCmd)
 
 	// Here you will define your flags and configuration settings.
 
