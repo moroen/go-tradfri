@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	coap "github.com/moroen/go-tradfricoap"
 	"github.com/spf13/cobra"
@@ -53,9 +54,57 @@ to quickly create a Cobra application.`,
 	},
 }
 
+var groupOffCmd = &cobra.Command{
+	Use:   "off",
+	Short: "A brief description of your command",
+	Long:  `Commands for working with groups.`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) != 1 {
+			return fmt.Errorf("Wrong number of arguments")
+		}
+		err := coap.ValidateDeviceID(args[0])
+		return err
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		id, err := strconv.Atoi(args[0])
+		if err != nil {
+			panic(err.Error())
+		}
+		_, err = coap.GroupSetState(int64(id), 0)
+		if err != nil {
+			panic(err.Error())
+		}
+	},
+}
+
+var groupOnCmd = &cobra.Command{
+	Use:   "on",
+	Short: "Turn on a group of lights",
+	Long:  `Commands for working with groups.`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) != 1 {
+			return fmt.Errorf("Wrong number of arguments")
+		}
+		err := coap.ValidateDeviceID(args[0])
+		return err
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		id, err := strconv.Atoi(args[0])
+		if err != nil {
+			panic(err.Error())
+		}
+		_, err = coap.GroupSetState(int64(id), 1)
+		if err != nil {
+			panic(err.Error())
+		}
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(groupCmd)
 	groupCmd.AddCommand(listGroupCmd)
+	groupCmd.AddCommand(groupOnCmd)
+	groupCmd.AddCommand(groupOffCmd)
 
 	// Here you will define your flags and configuration settings.
 

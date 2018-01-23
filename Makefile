@@ -1,11 +1,12 @@
 dep = ${GOPATH}/bin/dep
 curDir = $(shell pwd)
 # vendor = $(curDir)/vendor
+go-coap-lib = ${GOPATH}/src/github.com/moroen/go-tradfricoap/
 target = tradfri
 
 all: $(target)
 
-tradfri: $(dep) $(vendor) cmd cmd/* *.go
+tradfri: $(dep) $(vendor) $(go-coap-lib)/*.go cmd cmd/* *.go
 	go build -v
 
 $(dep):
@@ -15,7 +16,7 @@ $(vendor):
 	dep ensure -v
 
 test: tradfri
-	$(target) list
+	./$(target) list
 
 clean:
 	rm -rf $(vendor); rm tradfri
