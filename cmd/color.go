@@ -60,13 +60,21 @@ to quickly create a Cobra application.`,
 		if strings.ToLower(args[1]) == "list" {
 			if device, err := coap.GetLight(int64(id)); err == nil {
 				coap.ListColorsInMap(device.Colors)
+			} else {
+				fmt.Println(err.Error())
 			}
 		} else {
 			level, err := strconv.Atoi(args[1])
 			if err != nil {
 				panic(err.Error())
 			}
-			coap.SetHexForLevel(int64(id), level)
+
+			device, err := coap.SetHexForLevel(int64(id), level)
+			if err != nil {
+				fmt.Println(err.Error())
+			} else {
+				fmt.Println(device.Describe())
+			}
 		}
 	},
 }

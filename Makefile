@@ -18,5 +18,8 @@ $(vendor):
 test: tradfri
 	./$(target) list
 
+install: $(target)
+	go install
+	
 clean:
 	rm -rf $(vendor); rm tradfri

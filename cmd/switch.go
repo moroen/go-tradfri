@@ -55,9 +55,11 @@ to quickly create a Cobra application.`,
 			panic(err.Error())
 		}
 
-		_, err = coap.SetState(int64(id), 1)
+		device, err := coap.SetState(int64(id), 1)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+		} else {
+			fmt.Println(device.Describe())
 		}
 	},
 }
@@ -89,9 +91,11 @@ to quickly create a Cobra application.`,
 			panic(err.Error())
 		}
 
-		_, err = coap.SetState(int64(id), 0)
+		device, err := coap.SetState(int64(id), 0)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+		} else {
+			fmt.Println(device.Describe())
 		}
 	},
 }
@@ -107,7 +111,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		lights, _, err := coap.GetDevices()
+		lights, err := coap.GetDevices()
 		if err != nil {
 			panic(err.Error())
 		}
@@ -153,9 +157,11 @@ to quickly create a Cobra application.`,
 			panic(err.Error())
 		}
 
-		_, err = coap.SetLevel(int64(id), level)
+		device, err := coap.SetLevel(int64(id), level)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+		} else {
+			fmt.Println(device.Describe())
 		}
 
 	},
