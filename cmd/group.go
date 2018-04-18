@@ -70,9 +70,11 @@ var groupOffCmd = &cobra.Command{
 		if err != nil {
 			panic(err.Error())
 		}
-		_, err = coap.GroupSetState(int64(id), 0)
+		group, err := coap.GroupSetState(int64(id), 0)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+		} else {
+			fmt.Println(group.Describe())
 		}
 	},
 }
@@ -93,9 +95,11 @@ var groupOnCmd = &cobra.Command{
 		if err != nil {
 			panic(err.Error())
 		}
-		_, err = coap.GroupSetState(int64(id), 1)
+		group, err := coap.GroupSetState(int64(id), 1)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+		} else {
+			fmt.Println(group.Describe())
 		}
 	},
 }
@@ -135,9 +139,11 @@ to quickly create a Cobra application.`,
 			panic(err.Error())
 		}
 
-		_, err = coap.GroupSetLevel(int64(id), level)
+		group, err := coap.GroupSetLevel(int64(id), level)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+		} else {
+			fmt.Println(group.Describe())
 		}
 
 	},
