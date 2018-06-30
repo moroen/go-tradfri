@@ -1,3 +1,9 @@
+MY_FLAG = ${GOPATH}
+
+ifndef GOPATH
+$(error GOPATH is not set)
+endif
+
 dep = ${GOPATH}/bin/dep
 curDir = $(shell pwd)
 vendor = $(curDir)/vendor
