@@ -3,13 +3,12 @@
 package main
 
 import (
+	"fmt"
 	"tradfri/cmd"
 
 	coap "github.com/moroen/go-tradfricoap"
 	// "github.com/spf13/viper"
-	"fmt"
-	"log"
-	"net/http"
+
 	_ "net/http/pprof"
 )
 
@@ -17,19 +16,16 @@ func init() {
 
 }
 
+func NoConfigError() {
+	fmt.Println("No config found! Please set configuration with 'tradfri gateway config <IP> <KEY>'")
+}
+
 func main() {
 	err := coap.LoadConfig()
-
-	go func() {
-		log.Println(http.ListenAndServe("localhost:6060", nil))
-	}()
 
 	cmd.Execute()
 
 	if err != nil {
-		fmt.Println("\nNo config found!")
-	} else {
-
+		fmt.Println("No config found! Please set configuration with 'tradfri gateway config <IP> <KEY>'")
 	}
-
 }

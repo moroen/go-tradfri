@@ -16,10 +16,9 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 
 	coap "github.com/moroen/go-tradfricoap"
-
+	uuid "github.com/satori/go.uuid"
 	"github.com/spf13/cobra"
 )
 
@@ -39,7 +38,9 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("gateway called")
+		if conf, err := coap.GetConfig(); err == nil {
+			fmt.Println(conf.Describe())
+		}
 	},
 }
 
@@ -53,31 +54,40 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	Args: cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		conf := coap.GetConfig()
-		isDirty := false
+		conf, _ := coap.GetConfig()
 
-		if flagGateway != "" {
-			conf.Gateway = fmt.Sprintf("%s:%s", flagGateway, flagPort)
-			isDirty = true
-		}
+		// isDirty := false
 
-		if flagIdent != "" {
-			conf.Identity = flagIdent
-			isDirty = true
-		}
-
-		if flagKey != "" {
-			conf.Passkey = flagKey
-			isDirty = true
-		}
-
-		if isDirty {
-			coap.SetConfig(conf)
-			coap.SaveConfig(conf)
+		if flagPort != "" {
+			conf.Gateway = fmt.Sprintf("%s:%s", args[0], flagPort)
 		} else {
-			log.Println(coap.GetConfig().Describe())
+			conf.Gateway = fmt.Sprintf("%s:%s", args[1], "5684")
 		}
+
+		u2 := uuid.NewV4()
+		coap.CreateIdent(args[0], args[1], u2.String())
+
+		/*
+			if flagIdent != "" {
+				conf.Identity = flagIdent
+				isDirty = true
+			}
+
+			if flagKey != "" {
+				conf.Passkey = flagKey
+				isDirty = true
+			}
+
+			if isDirty {
+				coap.SetConfig(conf)
+				coap.SaveConfig(conf)
+			} else {
+				log.Println(coap.GetConfig().Describe())
+			}
+		*/
+		fmt.Println(conf.Describe())
 	},
 }
 

@@ -31,8 +31,9 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("uri called")
+		// fmt.Println("uri called")
 		resp, err := coap.GetRequest(args[0])
 		if err != nil {
 			panic(err.Error())

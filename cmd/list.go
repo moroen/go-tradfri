@@ -22,16 +22,8 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		lights, err := coap.GetDevices()
 		if err != nil {
-			if err == coap.ErrorTimeout {
-				fmt.Println("Timeout getting lights")
-				return
-			}
-
-			if err == coap.ErrorBadIdent {
-				fmt.Println("Error reading dtls-stream. Bad credentials?")
-				return
-			}
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		fmt.Println("Lights:")

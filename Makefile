@@ -1,5 +1,3 @@
-MY_FLAG = ${GOPATH}
-
 ifndef GOPATH
 $(error GOPATH is not set)
 endif
@@ -7,6 +5,8 @@ endif
 dep = ${GOPATH}/bin/dep
 curDir = $(shell pwd)
 vendor = $(curDir)/vendor
+files = *.go cmd/*.go
+
 #go-coap-lib = ${GOPATH}/src/github.com/moroen/go-tradfricoap/
 #go-canopus = ${GOPATH}/src/github.com/moroen/canopus/
 
@@ -14,7 +14,7 @@ target = tradfri
 
 all: $(target)
 
-tradfri: $(dep) $(vendor) main.go
+tradfri: $(dep) $(vendor) $(files)
 	go build -v
 
 $(dep):
