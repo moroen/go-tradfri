@@ -1,14 +1,14 @@
 dep = ${GOPATH}/bin/dep
 curDir = $(shell pwd)
-# vendor = $(curDir)/vendor
-go-coap-lib = ${GOPATH}/src/github.com/moroen/go-tradfricoap/
-go-canopus = ${GOPATH}/src/github.com/moroen/canopus/
+vendor = $(curDir)/vendor
+#go-coap-lib = ${GOPATH}/src/github.com/moroen/go-tradfricoap/
+#go-canopus = ${GOPATH}/src/github.com/moroen/canopus/
 
 target = tradfri
 
 all: $(target)
 
-tradfri: $(dep) $(vendor) $(go-coap-lib)/*.go $(go-canopus)/*.go cmd cmd/* *.go
+tradfri: $(dep) $(vendor) main.go
 	go build -v
 
 $(dep):
