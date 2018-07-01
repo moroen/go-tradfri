@@ -54,7 +54,8 @@ to quickly create a Cobra application.`,
 
 		id, err := strconv.Atoi(args[0])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		if strings.ToLower(args[1]) == "list" {
@@ -66,7 +67,8 @@ to quickly create a Cobra application.`,
 		} else {
 			level, err := strconv.Atoi(args[1])
 			if err != nil {
-				panic(err.Error())
+				fmt.Println(err.Error())
+				return
 			}
 
 			device, err := coap.SetHexForLevel(int64(id), level)

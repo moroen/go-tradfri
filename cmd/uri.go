@@ -36,7 +36,8 @@ to quickly create a Cobra application.`,
 		// fmt.Println("uri called")
 		resp, err := coap.GetRequest(args[0])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 		fmt.Println(resp.String())
 	},

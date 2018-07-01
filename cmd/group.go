@@ -69,7 +69,8 @@ var groupOffCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		id, err := strconv.Atoi(args[0])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 		group, err := coap.GroupSetState(int64(id), 0)
 		if err != nil {
@@ -94,7 +95,8 @@ var groupOnCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		id, err := strconv.Atoi(args[0])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 		group, err := coap.GroupSetState(int64(id), 1)
 		if err != nil {
@@ -132,12 +134,14 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		id, err := strconv.Atoi(args[0])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		level, err := strconv.Atoi(args[1])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		group, err := coap.GroupSetLevel(int64(id), level)

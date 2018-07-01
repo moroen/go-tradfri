@@ -42,7 +42,8 @@ to quickly create a Cobra application.`,
 				fmt.Println("Error reading dtls-stream. Bad credentials?")
 				return
 			}
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		fmt.Println("\nGroups:")

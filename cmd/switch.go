@@ -52,7 +52,8 @@ to quickly create a Cobra application.`,
 
 		id, err := strconv.Atoi(args[0])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		device, err := coap.SetState(int64(id), 1)
@@ -88,7 +89,8 @@ to quickly create a Cobra application.`,
 
 		id, err := strconv.Atoi(args[0])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		device, err := coap.SetState(int64(id), 0)
@@ -113,7 +115,8 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		lights, err := coap.GetDevices()
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 		for i := range lights {
 			fmt.Println(lights[i].Describe())
@@ -149,12 +152,14 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		id, err := strconv.Atoi(args[0])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		level, err := strconv.Atoi(args[1])
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 
 		device, err := coap.SetLevel(int64(id), level)
