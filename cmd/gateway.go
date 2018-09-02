@@ -38,6 +38,19 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
+	},
+}
+
+var gatewayCmdShow = &cobra.Command{
+	Use:   "show",
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
+	Run: func(cmd *cobra.Command, args []string) {
 		if conf, err := coap.GetConfig(); err == nil {
 			fmt.Println(conf.Describe())
 		}
@@ -87,34 +100,19 @@ to quickly create a Cobra application.`,
 				log.Println(coap.GetConfig().Describe())
 			}
 		*/
-		fmt.Println(conf.Describe())
-	},
-}
-
-// createidCmd represents the createid command
-var createidCmd = &cobra.Command{
-	Use:   "createid",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		coap.CreateIdent(args[0], args[1], args[2])
+		// fmt.Println(conf.Describe())
 	},
 }
 
 func init() {
 
-	configCmd.Flags().StringVar(&flagGateway, "gateway", "", "Set gateway address")
-	configCmd.Flags().StringVar(&flagIdent, "ident", "", "Set ident")
-	configCmd.Flags().StringVar(&flagKey, "key", "", "Set PSK for ident")
-	configCmd.Flags().StringVar(&flagPort, "port", coap.DefaultPort, "Gateway port")
+	// configCmd.Flags().StringVar(&flagGateway, "gateway", "", "Set gateway address")
+	// configCmd.Flags().StringVar(&flagIdent, "ident", "", "Set ident")
+	// configCmd.Flags().StringVar(&flagKey, "key", "", "Set PSK for ident")
+	// configCmd.Flags().StringVar(&flagPort, "port", coap.DefaultPort, "Gateway port")
 
 	gatewayCmd.AddCommand(configCmd)
-	gatewayCmd.AddCommand(createidCmd)
+	gatewayCmd.AddCommand(gatewayCmdShow)
 	rootCmd.AddCommand(gatewayCmd)
 
 	// Here you will define your flags and configuration settings.
