@@ -21,8 +21,10 @@ func NoConfigError() {
 }
 
 func main() {
-	err := coap.LoadConfig()
-
+	_, err := coap.LoadConfig()
+	if err != nil {
+		panic(err.Error())
+	}
 	cmd.Execute()
 
 	if err != nil {

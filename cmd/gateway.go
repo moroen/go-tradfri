@@ -79,7 +79,7 @@ to quickly create a Cobra application.`,
 			conf.Gateway = fmt.Sprintf("%s:%s", args[1], "5684")
 		}
 
-		u2 := uuid.NewV4()
+		u2, _ := uuid.NewV4()
 		coap.CreateIdent(args[0], args[1], u2.String())
 
 		/*
