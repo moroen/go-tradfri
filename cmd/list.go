@@ -5,7 +5,7 @@ package cmd
 import (
 	"fmt"
 
-	coap "github.com/moroen/go-tradfricoap"
+	coap "github.com/moroen/tradfricoap"
 	"github.com/spf13/cobra"
 )
 
@@ -20,36 +20,45 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		lights, err := coap.GetDevices()
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		fmt.Println("Lights:")
-		for i := range lights {
-			fmt.Println(lights[i].Describe())
-		}
-
-		groups, err := coap.GetGroups()
-		if err != nil {
-			if err == coap.ErrorTimeout {
-				fmt.Println("Error: Timeout getting groups")
-				return
+		if lights, plugs, groups, err := coap.GetDevices(); err == nil {
+			fmt.Println("Lights:")
+			for i := range lights {
+				fmt.Println(lights[i].Describe())
 			}
 
-			if err == coap.ErrorBadIdent {
-				fmt.Println("Error reading dtls-stream. Bad credentials?")
-				return
+			fmt.Println("\nPlugs:")
+			for i := range plugs {
+				fmt.Println(plugs[i].Describe())
 			}
-			fmt.Println(err.Error())
-			return
+
+			fmt.Println("\nGroups:")
+			for i := range groups {
+				fmt.Println(groups[i].Describe())
+			}
 		}
 
-		fmt.Println("\nGroups:")
-		for i := range groups {
-			fmt.Println(groups[i].Describe())
-		}
+		/*
+			if lights, err := coap.GetLights(); err == nil {
+				fmt.Println("Lights:")
+				for i := range lights {
+					fmt.Println(lights[i].Describe())
+				}
+			}
+
+			if plugs, err := coap.GetPlugs(); err == nil {
+				fmt.Println("\nPlugs:")
+				for i := range plugs {
+					fmt.Println(plugs[i].Describe())
+				}
+			}
+
+			if groups, err := coap.GetGroups(); err == nil {
+				fmt.Println("\nGroups:")
+				for i := range groups {
+					fmt.Println(groups[i].Describe())
+				}
+			}
+		*/
 	},
 }
 

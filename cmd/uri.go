@@ -17,7 +17,7 @@ package cmd
 import (
 	"fmt"
 
-	coap "github.com/moroen/go-tradfricoap"
+	coap "github.com/moroen/tradfricoap"
 	"github.com/spf13/cobra"
 )
 

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
-	coap "github.com/moroen/go-tradfricoap"
+	coap "github.com/moroen/tradfricoap"
 
 	"github.com/spf13/cobra"
 )
@@ -113,7 +113,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		lights, err := coap.GetDevices()
+		lights, err := coap.GetLights()
 		if err != nil {
 			fmt.Println(err.Error())
 			return

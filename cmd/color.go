@@ -19,7 +19,7 @@ import (
 	"strconv"
 	"strings"
 
-	coap "github.com/moroen/go-tradfricoap"
+	coap "github.com/moroen/tradfricoap"
 	"github.com/spf13/cobra"
 )
 
