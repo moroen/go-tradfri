@@ -15,9 +15,6 @@
 package cmd
 
 import (
-	"fmt"
-
-	coap "github.com/moroen/tradfricoap"
 	"github.com/spf13/cobra"
 )
 
@@ -33,12 +30,14 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// fmt.Println("test called")
-		group, err := coap.GetGroup(158578)
-		if err != nil {
-			fmt.Println(err.Error())
-		} else {
-			fmt.Println(group)
-		}
+		/*
+			group, err := coap.GetGroup(158578)
+			if err != nil {
+				fmt.Println(err.Error())
+			} else {
+				fmt.Println(group)
+			}*/
+		rootCmd.GenZshCompletionFile("test")
 	},
 }
 

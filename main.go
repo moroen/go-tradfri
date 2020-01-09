@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+
 	"tradfri/cmd"
 
 	coap "github.com/moroen/tradfricoap"

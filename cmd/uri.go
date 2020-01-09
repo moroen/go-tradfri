@@ -39,7 +39,7 @@ to quickly create a Cobra application.`,
 			fmt.Println(err.Error())
 			return
 		}
-		fmt.Println(string(resp.Payload))
+		fmt.Println(string(resp))
 	},
 }
 
