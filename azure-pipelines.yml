@@ -41,3 +41,9 @@ steps:
     go build -v -o tradfri main.go
   workingDirectory: '$(modulePath)'
   displayName: 'Build'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'tradfri'
+    publishLocation: 'pipeline'
