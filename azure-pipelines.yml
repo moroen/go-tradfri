@@ -14,12 +14,14 @@ variables:
   GOROOT: '/usr/local/go1.11' # Go installation path
   GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
   modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
+  distPath: "$(modulePath)/dist"
 
 steps:
 - script: |
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
     mkdir -p '$(modulePath)'
+    mkdir -p '$(distPath)'
     shopt -s extglob
     shopt -s dotglob
     mv !(gopath) '$(modulePath)'
@@ -38,12 +40,12 @@ steps:
   displayName: 'Get dependencies, then build'
 
 - script: |
-    go build -v -o tradfri main.go
+    go build -v -o $(distPath)/tradfri main.go
   workingDirectory: '$(modulePath)'
   displayName: 'Build'
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
+    targetPath: '$(distPath)'
     artifact: 'tradfri'
     publishLocation: 'pipeline'
