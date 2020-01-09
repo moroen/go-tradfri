@@ -38,6 +38,6 @@ steps:
   displayName: 'Get dependencies, then build'
 
 - script: |
-    go build -v -o tradfri . 
+    go build -v -o tradfri main.go
   workingDirectory: '$(modulePath)'
   displayName: 'Build'

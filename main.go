@@ -5,7 +5,7 @@ package main
 import (
 	"fmt"
 
-	"tradfri/cmd"
+	"github.com/moroen/go-tradfri/cmd"
 
 	coap "github.com/moroen/tradfricoap"
 	// "github.com/spf13/viper"
