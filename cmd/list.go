@@ -5,7 +5,7 @@ package cmd
 import (
 	"fmt"
 
-	coap "github.com/moroen/tradfricoap"
+	coap "github.com/moroen/go-tradfri/tradfricoap"
 	"github.com/spf13/cobra"
 )
 
