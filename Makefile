@@ -4,7 +4,7 @@ endif
 
 dep = ${GOPATH}/bin/dep
 curDir = $(shell pwd)
-vendor = $(curDir)/vendor
+dependencies = $(GOPATH)/src/github.com/spf13/cobra
 files = *.go cmd/*.go
 
 #go-coap-lib = ${GOPATH}/src/github.com/moroen/go-tradfricoap/
@@ -14,14 +14,11 @@ target = tradfri
 
 all: $(target)
 
-tradfri: $(dep) $(vendor) $(files)
-	go build -v
+tradfri: $(dependencies) $(files)
+	go build -v -o tradfri main.go
 
-$(dep):
-	go get -u github.com/golang/dep/cmd/dep
-
-$(vendor):
-	dep ensure -v
+$(dependencies):
+	go get -v
 
 test: tradfri
 	./$(target) observe 65545
