@@ -23,6 +23,10 @@ const attrLightDimmer = "5851"
 const attrLightHex = "5706"
 const attrTransitionTime = "5712"
 
+// Blinds
+const attrBlindControl = "15015"
+const attrBlindPosition = "5536"
+
 // Groups
 const attrGroupName = "9001"
 

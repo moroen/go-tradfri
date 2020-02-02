@@ -41,11 +41,11 @@ func GetDevice(id int64) ([]byte, error) {
 	return msg, err
 }
 
-func GetDevices() (lights TradfriLights, plugs TradfriPlugs, groups TradfriGroups, err error) {
+func GetDevices() (lights TradfriLights, plugs TradfriPlugs, blinds TradfriBlinds, groups TradfriGroups, err error) {
 	result, err := GetRequest(uriDevices)
 	if err != nil {
 		// fmt.Println(err.Error())
-		return nil, nil, nil, err
+		return nil, nil, nil, nil, err
 	}
 
 	msg := result
@@ -71,6 +71,14 @@ func GetDevices() (lights TradfriLights, plugs TradfriPlugs, groups TradfriGroup
 
 			}
 
+			if _, _, _, err := jsonparser.Get(aDevice, attrBlindControl); err == nil {
+				if aBlind, err := getBlindInfo(aDevice); err == nil {
+					blinds = append(blinds, aBlind)
+				}
+
+			}
+
+
 		}
 	})
 
@@ -79,5 +87,5 @@ func GetDevices() (lights TradfriLights, plugs TradfriPlugs, groups TradfriGroup
 		panic(err.Error())
 	}
 
-	return lights, plugs, groups, err
+	return lights, plugs, blinds, groups, err
 }

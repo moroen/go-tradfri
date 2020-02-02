@@ -5,7 +5,7 @@ endif
 dep = ${GOPATH}/bin/dep
 curDir = $(shell pwd)
 dependencies = $(GOPATH)/src/github.com/spf13/cobra
-files = *.go cmd/*.go
+files = *.go cmd/*.go tradfricoap/*.go
 
 #go-coap-lib = ${GOPATH}/src/github.com/moroen/go-tradfricoap/
 #go-canopus = ${GOPATH}/src/github.com/moroen/canopus/

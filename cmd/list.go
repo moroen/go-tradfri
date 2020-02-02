@@ -20,7 +20,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if lights, plugs, groups, err := coap.GetDevices(); err == nil {
+		if lights, plugs, blinds, groups, err := coap.GetDevices(); err == nil {
 			fmt.Println("Lights:")
 			for i := range lights {
 				fmt.Println(lights[i].Describe())
@@ -29,6 +29,11 @@ to quickly create a Cobra application.`,
 			fmt.Println("\nPlugs:")
 			for i := range plugs {
 				fmt.Println(plugs[i].Describe())
+			}
+
+			fmt.Println("\nBlinds:")
+			for i := range blinds {
+				fmt.Println(blinds[i].Describe())
 			}
 
 			fmt.Println("\nGroups:")
