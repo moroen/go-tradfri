@@ -8,7 +8,7 @@ import (
 	"github.com/shibukawa/configdir"
 	"github.com/tucnak/store"
 
-	coap "github.com/moroen/gocoap"
+	coap "github.com/moroen/gocoap/v2"
 )
 
 var globalGatewayConfig GatewayConfig
@@ -125,7 +125,8 @@ func GetRequest(URI string) (retmsg []byte, err error) {
 		if err == coap.ErrorHandshake {
 			log.Fatalln("Connection timed out")
 		} else {
-			panic(err.Error())
+			log.Println(err.Error())
+			// panic(err.Error())
 		}
 	}
 

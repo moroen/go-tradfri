@@ -3,6 +3,8 @@ package tradfricoap
 import ( // "log"
 	// "os"
 	"fmt"
+	"log"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -54,7 +56,8 @@ func GetDevices() (lights TradfriLights, plugs TradfriPlugs, blinds TradfriBlind
 		if res, err := jsonparser.GetInt(value); err == nil {
 			aDevice, err := GetDevice(res)
 			if err != nil {
-				panic(err.Error())
+				log.Println(err.Error())
+				return
 			}
 
 			if _, _, _, err := jsonparser.Get(aDevice, attrLightControl); err == nil {
@@ -78,14 +81,30 @@ func GetDevices() (lights TradfriLights, plugs TradfriPlugs, blinds TradfriBlind
 
 			}
 
-
 		}
+		// time.Sleep(1000 * time.Millisecond)
 	})
 
 	groups, err = GetGroups()
 	if err != nil {
 		panic(err.Error())
 	}
+
+	sort.Slice(lights, func(i, j int) bool {
+		return lights[i].Id < lights[j].Id
+	})
+
+	sort.Slice(plugs, func(i, j int) bool {
+		return plugs[i].Id < plugs[j].Id
+	})
+
+	sort.Slice(blinds, func(i, j int) bool {
+		return blinds[i].Id < blinds[j].Id
+	})
+
+	sort.Slice(groups, func(i, j int) bool {
+		return groups[i].Id < groups[j].Id
+	})
 
 	return lights, plugs, blinds, groups, err
 }

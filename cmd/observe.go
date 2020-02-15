@@ -32,17 +32,8 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		done := make(chan bool)
-		//go func() {
-		//	fmt.Println("observe called")
-
-		for {
-			fmt.Println("observe called")
-			go coap.Observe(fmt.Sprintf("/15001/%s", args[0]), done)
-			// go coap.Observe(fmt.Sprintf("/15001/%s", "65537"), done)
-			<-done
-			fmt.Println("observe finished")
-		}
+		coap.Observe()
+		fmt.Println("Observe done")
 	},
 }
 

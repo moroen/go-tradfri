@@ -121,6 +121,7 @@ func SetState(id int64, state int) (TradfriLight, error) {
 
 	uri := fmt.Sprintf("%s/%d", uriDevices, id)
 	payload := fmt.Sprintf("{ \"%s\": [{ \"%s\": %d }] }", attrLightControl, attrLightState, state)
+
 	_, err := PutRequest(uri, payload)
 	if err != nil {
 		return device, err
