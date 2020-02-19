@@ -15,10 +15,9 @@
 package cmd
 
 import (
-	"fmt"
-
 	coap "github.com/moroen/go-tradfri/tradfricoap"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // observeCmd represents the observe command
@@ -32,8 +31,10 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		coap.Observe()
-		fmt.Println("Observe done")
+		err := coap.Observe()
+		if err != nil {
+			log.Println(err.Error())
+		}
 	},
 }
 

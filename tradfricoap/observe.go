@@ -9,7 +9,7 @@ import (
 	coap "github.com/moroen/gocoap/v2"
 )
 
-func Observe() {
+func Observe() error {
 
 	log.Println("Observe called")
 
@@ -33,20 +33,24 @@ func Observe() {
 
 	msg := make(chan []byte)
 	sign := make(chan bool)
+	errSign := make(chan error)
 
-	state := 0
+	// state := 0
 
-	go coap.Observe(param, msg, sign)
+	go coap.Observe(param, msg, sign, errSign)
 	for {
 		select {
-		case message := <-msg:
-			fmt.Println(string(message))
-		case <-time.After(10 * time.Second):
-			SetState(65554, state)
-			state = 1 - state
+		case message, isOpen := <-msg:
+			if isOpen == true {
+				fmt.Println(string(message))
+			} else {
+				return nil
+			}
+		case err = <-errSign:
+			return err
 		case <-time.After(120 * time.Second):
 			sign <- true
-			return
+			return nil
 		}
 	}
 }
