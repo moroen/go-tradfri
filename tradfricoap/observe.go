@@ -20,7 +20,7 @@ func Observe() error {
 
 	param := coap.ObserveParams{Host: conf.Gateway, Port: 5684, Id: conf.Identity, Key: conf.Passkey}
 
-	endpoints := `["15001/65554", "15001/65550"]`
+	endpoints := `["15001/65554", "15001/65550", "15001/65560"]`
 
 	var uris []string
 
@@ -37,20 +37,25 @@ func Observe() error {
 
 	// state := 0
 
-	go coap.Observe(param, msg, sign, errSign)
-	for {
-		select {
-		case message, isOpen := <-msg:
-			if isOpen == true {
-				fmt.Println(string(message))
-			} else {
+	err = coap.Observe(param, msg, sign, errSign)
+	if err != nil {
+		log.Println(err.Error())
+	} else {
+		for {
+			select {
+			case message, isOpen := <-msg:
+				if isOpen == true {
+					fmt.Println(string(message))
+				} else {
+					return nil
+				}
+			case err = <-errSign:
+				return err
+			case <-time.After(120 * time.Second):
+				sign <- true
 				return nil
 			}
-		case err = <-errSign:
-			return err
-		case <-time.After(120 * time.Second):
-			sign <- true
-			return nil
 		}
 	}
+	return nil
 }
