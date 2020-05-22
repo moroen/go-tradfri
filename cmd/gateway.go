@@ -16,6 +16,8 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	coap "github.com/moroen/go-tradfri/tradfricoap"
 	uuid "github.com/satori/go.uuid"
@@ -80,7 +82,12 @@ to quickly create a Cobra application.`,
 		}
 
 		u2, _ := uuid.NewV4()
-		coap.CreateIdent(args[0], args[1], u2.String())
+		err := coap.CreateIdent(args[0], args[1], u2.String())
+		if err != nil {
+			log.Println(err.Error())
+		} else {
+			os.Exit(0)
+		}
 
 		/*
 			if flagIdent != "" {

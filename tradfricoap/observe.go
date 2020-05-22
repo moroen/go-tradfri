@@ -18,7 +18,7 @@ func Observe() {
 		panic(err.Error())
 	}
 
-	param := coap.ObserveParams{Host: conf.Gateway, Port: 5684, Id: conf.Identity, Key: conf.Passkey}
+	param := coap.ObserveParams{Host: conf.Gateway, Port: 5684, ID: conf.Identity, Key: conf.Passkey}
 
 	endpoints := `["15001/65554", "15001/65550"]`
 
@@ -29,14 +29,15 @@ func Observe() {
 		panic(err.Error())
 	}
 
-	param.Uri = uris
+	param.URI = uris
 
 	msg := make(chan []byte)
 	sign := make(chan bool)
+	obserr := make(chan error)
 
 	state := 0
 
-	go coap.Observe(param, msg, sign)
+	go coap.Observe(param, msg, sign, obserr)
 	for {
 		select {
 		case message := <-msg:

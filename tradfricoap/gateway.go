@@ -3,8 +3,10 @@ package tradfricoap
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 
+	"github.com/buger/jsonparser"
 	"github.com/shibukawa/configdir"
 	"github.com/tucnak/store"
 
@@ -72,43 +74,27 @@ func SaveConfig(conf GatewayConfig) (err error) {
 	return err
 }
 
-func CreateIdent(gateway, key, ident string) {
-	/*
-		payload := fmt.Sprintf("{\"%s\":\"%s\"}", attr_Ident, ident)
-		URI := uri_Ident
+func CreateIdent(gateway, key, ident string) error {
 
-		conn, err := canopus.DialDTLS(fmt.Sprintf("%s:%s", gateway, DefaultPort), "Client_identity", key)
-		if err != nil {
-			panic(err.Error())
-		}
+	payload := fmt.Sprintf("{\"%s\":\"%s\"}", attrIdent, ident)
+	URI := uriIdent
 
-		req := canopus.NewRequest(canopus.MessageConfirmable, canopus.Post)
-		req.SetRequestURI(URI)
-		req.SetStringPayload(payload)
+	param := coap.RequestParams{Host: gateway, Port: 5684, Uri: URI, Id: "Client_identity", Key: key, Payload: payload}
 
-		response, err := conn.Send(req)
-		if err != nil {
-			panic(err.Error())
-		}
+	res, err := coap.PostRequest(param)
+	if err != nil {
+		return err
+	}
 
-		if response.GetMessage().GetCode() == 65 {
-			result := response.GetMessage().GetPayload().GetBytes()
-			psk, err := jsonparser.GetString(result, "9091")
-			if err != nil {
-				panic(err.Error())
-			}
+	psk, err := jsonparser.GetString(res, "9091")
+	if err != nil {
+		return err
+	}
 
-			conf := GatewayConfig{Gateway: fmt.Sprintf("%s:%s", gateway, DefaultPort), Identity: ident, Passkey: psk}
-			SaveConfig(conf)
-			SetConfig(conf)
-
-		} else {
-			log.Printf("Unable to get PSK for ident '%s'. Ident already in use?", ident)
-		}
-		// fmt.Println("Code: ", resp.GetMessage().GetCode())
-		// response := resp.GetMessage().GetPayload()
-		// fmt.Println("Response: ", response.String())
-	*/
+	conf := GatewayConfig{Gateway: fmt.Sprintf("%s", gateway), Identity: ident, Passkey: psk}
+	SaveConfig(conf)
+	SetConfig(conf)
+	return nil
 }
 
 func GetRequest(URI string) (retmsg []byte, err error) {
