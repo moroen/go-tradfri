@@ -19,10 +19,11 @@ steps:
 #     command: 'get'
 #     arguments: '-d'
 #     workingDirectory: '$(System.DefaultWorkingDirectory)'
+
 - task: Go@0
   inputs:
     command: 'build'
-    arguments: '-v'
+    arguments: '-v -i'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
 - task: CopyFiles@2
   inputs:
