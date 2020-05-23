@@ -10,7 +10,7 @@ import (
 	"github.com/shibukawa/configdir"
 	"github.com/tucnak/store"
 
-	coap "github.com/moroen/gocoap/v2"
+	coap "github.com/moroen/gocoap"
 )
 
 var globalGatewayConfig GatewayConfig

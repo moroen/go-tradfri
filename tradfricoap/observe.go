@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	coap "github.com/moroen/gocoap/v2"
+	coap "github.com/moroen/gocoap"
 )
 
 func Observe() {
