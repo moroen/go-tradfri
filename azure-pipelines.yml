@@ -21,10 +21,11 @@ steps:
 - task: Go@0
   inputs:
     command: 'build'
+    arguments: '-v -o tradfri'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/go-tradfri'
-    ArtifactName: 'go-tradfri'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/tradfri'
+    ArtifactName: 'tradfri'
     publishLocation: 'Container'
