@@ -22,12 +22,9 @@ steps:
   inputs:
     command: 'build'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
-- task: CopyFiles@2
+
+- task: PublishBuildArtifacts@1
   inputs:
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(distPath)'
-    artifact: 'tradfri'
-    publishLocation: 'pipeline'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/go-tradfri'
+    ArtifactName: 'go-tradfri'
+    publishLocation: 'Container'
