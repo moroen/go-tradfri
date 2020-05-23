@@ -8,7 +8,6 @@ import (
 
 	"github.com/buger/jsonparser"
 	"github.com/shibukawa/configdir"
-	"github.com/tucnak/store"
 
 	coap "github.com/moroen/gocoap"
 )
@@ -21,17 +20,14 @@ type GatewayConfig struct {
 	Passkey  string
 }
 
+var configDirs = configdir.New("", "tradfri")
+
 // ErrorNoConfig error
 var ErrorNoConfig = errors.New("Tradfri Error: No config")
 
 func (c GatewayConfig) Describe() string {
 	out, _ := json.Marshal(c)
 	return string(out)
-}
-
-func init() {
-	// You must init store with some truly unique path first!
-	store.Init("tradfri")
 }
 
 func SetConfig(c GatewayConfig) {
@@ -47,8 +43,7 @@ func GetConfig() (conf GatewayConfig, err error) {
 
 func LoadConfig() (config GatewayConfig, err error) {
 
-	configDir := configdir.New("", "tradfri")
-	folder := configDir.QueryFolderContainsFile("gateway.json")
+	folder := configDirs.QueryFolderContainsFile("gateway.json")
 
 	if folder == nil {
 		return config, errors.New("Config not found")
@@ -67,9 +62,14 @@ func LoadConfig() (config GatewayConfig, err error) {
 }
 
 func SaveConfig(conf GatewayConfig) (err error) {
-	err = store.Save("gateway.json", &conf)
+	data, _ := json.Marshal(&conf)
+	folders := configDirs.QueryFolders(configdir.Global)
+
+	err = folders[0].WriteFile("gateway.json", data)
 	if err == nil {
 		log.Println("Saved new config: ", conf.Describe())
+	} else {
+		log.Println(err.Error())
 	}
 	return err
 }
@@ -101,7 +101,7 @@ func GetRequest(URI string) (retmsg []byte, err error) {
 
 	conf, err := GetConfig()
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
 	param := coap.RequestParams{Host: conf.Gateway, Port: 5684, Uri: URI, Id: conf.Identity, Key: conf.Passkey}
