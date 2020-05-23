@@ -2,6 +2,8 @@ package tradfricoap
 
 import (
 	"fmt"
+	"log"
+
 	// "sort"
 
 	"github.com/buger/jsonparser"
@@ -44,4 +46,36 @@ func getBlindInfo(aDevice []byte) (TradfriBlind, error) {
 		p.Model = value
 	}
 	return p, err
+}
+
+func getBlind(id int64) (TradfriBlind, error) {
+	var aBlind TradfriBlind
+
+	device, err := GetRequest(fmt.Sprintf("%s/%d", uriDevices, id))
+	if err != nil {
+		return aBlind, err
+	}
+
+	aDevice := device
+
+	if _, _, _, err := jsonparser.Get(aDevice, attrBlindControl); err == nil {
+		aBlind, err := getBlindInfo(aDevice)
+		return aBlind, err
+	} else {
+		return aBlind, fmt.Errorf("device %d is not a blind", id)
+	}
+}
+
+func SetBlind(id int64, level int) (TradfriBlind, error) {
+	// Blinds
+
+	uri := fmt.Sprintf("%s/%d", uriDevices, id)
+	payload := fmt.Sprintf("{ \"%s\": [{ \"%s\": %d}] }", attrBlindControl, attrBlindPosition, level)
+	_, err := PutRequest(uri, payload)
+
+	if err != nil {
+		log.Println(err.Error())
+		return TradfriBlind{}, err
+	}
+	return getBlind((id))
 }
