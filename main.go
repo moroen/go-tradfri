@@ -7,7 +7,7 @@ import (
 
 	"github.com/moroen/go-tradfri/cmd"
 
-	coap "github.com/moroen/go-tradfri/tradfricoap"
+	coap "github.com/moroen/go-tradfricoap"
 	// "github.com/spf13/viper"
 
 	_ "net/http/pprof"

@@ -20,7 +20,7 @@ import (
 	"log"
 	"strconv"
 
-	coap "github.com/moroen/go-tradfri/tradfricoap"
+	coap "github.com/moroen/go-tradfricoap"
 	"github.com/spf13/cobra"
 )
 
