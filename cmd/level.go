@@ -61,13 +61,9 @@ to quickly create a Cobra application.`,
 			return
 		}
 
-		device, err := coap.SetLevel(int64(id), level)
-		if err != nil {
+		if err := coap.SetLevel(int64(id), level); err != nil {
 			fmt.Println(err.Error())
-		} else {
-			fmt.Println(device.Describe())
 		}
-
 	},
 }
 

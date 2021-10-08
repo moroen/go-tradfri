@@ -15,6 +15,7 @@
 package cmd
 
 import (
+	coap "github.com/moroen/go-tradfricoap"
 	"github.com/spf13/cobra"
 )
 
@@ -29,15 +30,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// fmt.Println("test called")
-		/*
-			group, err := coap.GetGroup(158578)
-			if err != nil {
-				fmt.Println(err.Error())
-			} else {
-				fmt.Println(group)
-			}*/
-		rootCmd.GenZshCompletionFile("test")
+		coap.SetRGB(65554, "#FF0000")
 	},
 }
 
