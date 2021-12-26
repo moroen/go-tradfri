@@ -2,9 +2,9 @@ module github.com/moroen/go-tradfri
 
 go 1.16
 
-replace github.com/moroen/go-tradfricoap => /home/mak/Projects/go/src/github.com/moroen/go-tradfricoap
+replace github.com/moroen/go-tradfricoap => ../go-tradfricoap/sync
 
-replace github.com/moroen/gocoap/v4 => /home/mak/Projects/go/src/github.com/moroen/gocoap/v4
+replace github.com/moroen/gocoap/v5 => ../gocoap/v5
 
 require (
 	github.com/mitchellh/go-homedir v1.1.0
